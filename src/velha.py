@@ -3,15 +3,27 @@ TAM = (-1, 0, 1)
 SP = 9
 SZ = 3
 print("oi")
-# equação da reta y = a*x + b
-# b = 0 então a nossa equação é y = a*x : y = -1*x a outra : y = 1*x : y = x
+# equacao da reta -> y =a*x + b
+#b = 0 então a nossa equação é: y = a*x, onde a = -1;
+
 # melhore o código de TIRAS para que teste mais possibilidades de ganhar
 TIRAS = [[(x*SP, y*SP, z*SP) for x in TAM] for y in TAM for z in TAM]+[
         [(x*SP, y*SP, z*SP) for y in TAM] for x in TAM for z in TAM]+[
-    [(x*SP, y*SP, z*SP) for z in TAM] for x in TAM for y in TAM]+[
-        [(-9,9,z),(0,0,z),(0,-9,z)] for z in [-9,0,9]]+[
-        [(9,9,z),(0,0,z),(-9,-9,z)] for z in [-9,0,9]]
-
+        [(x*SP, y*SP, z*SP) for z in TAM] for x in TAM for y in TAM]+[
+        [(-9,9,z),(0,0,z),(9,-9,z)] for z in [-9,0,9]]+[
+        [(9,9,z),(0,0,z),(-9,-9,z)] for z in [-9,0,9]]+[
+#Laterais:
+        [(9,9,9),(9,0,0),(9,-9,-9)]]+[
+        [(9,9,-9),(-9,0,0),(9,-9,9)]]+[
+#Cima e baixo:
+        [(-9,9,-9),(0,9,0),(9,9,9)]]+[
+        [(9,9,-9),(0,9,0),(-9,9,9)]]+[
+#Meios e centro:
+    [(9,9,0),(0,0,0),(-9,-9,0)]]+[
+    [(-9,9,0),(0,0,0),(9,-9,0)]]+[
+    [(0,9,9),(0,0,0),(9,-9,-9)]]+[
+    [(0,9,-9),(0,0,0),(0,-9,9)]]
+        #[(x, y, z), (x, y, z), (x, y, z)] for x in [9,0,-9] for y in [9,0,-9] for z in [9,0,-9]] #tentativa de testar todas as possibilidades ao mesmo tempo
 pecas = [box, sphere] * 14
 cores = [color.red, color.blue] * 14
 
@@ -38,11 +50,11 @@ class Casa:
         return self.peca.tipo if self.peca else 0
 
     def clicou(self):
-        print(self.pos)
         coluna, linha, camada = self.pos  # aposição da peça vai ser a posição da casa
         peca = Peca(pecas.pop(), coluna, linha, camada, cores.pop())  # cria uma peça aqui
         #Casa.CASAS.pop(self.pos)  # remove esta da lista de casas para não ser clicada
         self.recebe(peca)  # avisa a casa que ela esta é a peça que está nela
+        print(self.pos)
 
     def pinta_vencedores(self, vencedores):
         SP = SZ+1
